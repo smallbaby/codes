@@ -2,10 +2,9 @@ package com.jason.codepractise;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Jdk8Test {
 
@@ -50,5 +49,12 @@ public class Jdk8Test {
         items.stream().filter(s->s.contains("B"))
                 .forEach(System.out::println);
 
+    }
+
+    @Test
+    public void testStream() {
+        List<Integer> list = Stream.of(1,2,3,4).collect(Collectors.toList());
+        System.out.println(list);
+        Set<Integer> set = Stream.of(1,2,3,4).collect(Collectors.toSet());
     }
 }
