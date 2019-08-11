@@ -1,12 +1,40 @@
 package com.jason.codepractise;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+
+class MyFunction implements Function<String, Integer> {
+    @Override
+    public Integer apply(String s) {
+        return s.length();
+    }
+}
+
+class Student {
+    private int id;
+    public double gpa;
+    private String name;
+
+    Student(int id, long g, String name) {
+        this.id = id;
+        this.gpa = g;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return id + ">" + name + ": " + gpa;
+    }
+}
 
 public class Jdk8Test {
 
@@ -68,5 +96,49 @@ public class Jdk8Test {
         Predicate<Integer> atLeast5 = x -> x > 5;
         BinaryOperator<Long> addLongs = (x, y) -> x + y;
     }
+
+    @Test
+    public void consumerOneTest() {
+        Consumer<String> s = (x) -> System.out.println(x.toLowerCase());
+        s.accept("Hello");
+    }
+
+    public static void raiseStudents(List<Student> students, Consumer<Student> fx) {
+        for (Student stu : students) {
+            fx.accept(stu);
+        }
+    }
+
+    @Test
+    public void consumerTwoTest() {
+        List<Student> stus = Arrays.asList(
+                new Student(1, 1, "zhangkai"),
+                new Student(2, 2, "lisi"),
+                new Student(3, 3, "wangwu"));
+
+        Consumer<Student> raiser = e -> {
+            e.gpa = e.gpa * 1.1;
+        };
+        raiseStudents(stus, System.out::println);
+        raiseStudents(stus, raiser.andThen(System.out::println));
+    }
+
+    @Test
+    public void functionTest() {
+        Function<Integer, Integer> func = p -> p * 3;
+        Function<Integer, Integer> square = e -> e * e;
+
+        int value = func.andThen(square).apply(2);
+        Assert.assertEquals(value, 36); // 2 * 3 = 6 => 6 * 6
+
+        int value1 = func.compose(square).apply(2);
+        Assert.assertEquals(value1, 12);
+
+        Object identity = Function.identity().apply("hello");
+        Assert.assertEquals(identity, "hello");
+
+
+    }
+
 
 }
