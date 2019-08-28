@@ -10,6 +10,13 @@ package com.jason.codepractise.datastructure;
 public class BitMapJason {
     public static void main(String[] args) {
         byte[] bits = new byte[getIndex(1000000000) + 1];
+        System.out.println(10>>>3);
+        /**
+         * 10-->
+         *     1010
+         *
+         *
+         */
 
     }
 
