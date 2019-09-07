@@ -20,7 +20,6 @@ public class Provider {
 
         LocalMap.put(HelloService.class.getName(), HelloServiceImpl.class);
 
-
         // 暴露服务
 
 
